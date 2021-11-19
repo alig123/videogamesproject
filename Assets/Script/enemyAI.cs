@@ -34,7 +34,6 @@ public class enemyAI : MonoBehaviour {
 
     void Chase() //chase player
     {
-
         if (currentEnemyHealth > 0 && player)
         {
             nav.enabled = true;
@@ -53,14 +52,12 @@ public class enemyAI : MonoBehaviour {
         if (player) 
         { 
             nav.enabled = true;
-
-
             // turn away from the player 
             transform.rotation = Quaternion.LookRotation(transform.position - player.position);
             Vector3 runTo = transform.position + transform.forward * 10;
-
             nav.SetDestination(runTo);
-        } else
+        } 
+        else
         {
             nav.enabled = false;
         }
@@ -85,7 +82,6 @@ public class enemyAI : MonoBehaviour {
             _state = States.idle; return;
         }
 
-
         if (distance < 4)
         { //player in the zone,
             if (currentEnemyHealth <= 1)
@@ -101,8 +97,6 @@ public class enemyAI : MonoBehaviour {
                     case States.escape:
                         break;
                 }
-
-
             }
             else
             {
@@ -175,7 +169,6 @@ public class enemyAI : MonoBehaviour {
         if (other.gameObject.tag == "Player")
         {
             other.gameObject.GetComponent<PlayerMovement>().currentHealth--;
-
             other.gameObject.GetComponent<PlayerMovement>().Hit();
             other.gameObject.GetComponent<PlayerMovement>().timerHit();
 

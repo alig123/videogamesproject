@@ -31,8 +31,8 @@ public class explode : MonoBehaviour {
 
         else if (other.gameObject.tag == "enemyBat")
         {
-            other.gameObject.GetComponent<ScriptBat>().currentEnemyHealth--;
-            if (other.gameObject.GetComponent<ScriptBat>().currentEnemyHealth <= 0)
+            other.gameObject.GetComponent<ScriptBat>().batHealth--;
+            if (other.gameObject.GetComponent<ScriptBat>().batHealth <= 0)
             {
                 Destroy(other.gameObject);
             }
