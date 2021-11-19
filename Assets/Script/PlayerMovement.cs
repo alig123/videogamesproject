@@ -19,10 +19,6 @@ public class PlayerMovement : MonoBehaviour {
 
 
 
-
-
-
-
     // Use this for initialization
     void Start () {
         // Set up references.
@@ -54,8 +50,7 @@ public class PlayerMovement : MonoBehaviour {
         if (noBomb > 0 && Input.GetKeyDown(KeyCode.Space))
         { //Drop bomb
             
-            Instantiate(bombPrefab, new Vector3(GetComponent<Transform>().position.x, bombPrefab.transform.position.y, GetComponent<Transform>().position.z),bombPrefab.transform.rotation);
-            
+            Instantiate(bombPrefab, new Vector3(GetComponent<Transform>().position.x, bombPrefab.transform.position.y, GetComponent<Transform>().position.z),bombPrefab.transform.rotation);        
         }
 
     }
@@ -123,22 +118,11 @@ public class PlayerMovement : MonoBehaviour {
                 timeRemaining = 0;
                 timerIsRunning = false;
                 endHit();
+                resetTimer();
             }
         }
         
     }
-
-    /**public IEnumerator Hit()
-    {
-        yield return new WaitForSeconds(timer);
-        Blood.SetActive(true);
-
-        if(timer == 0)
-        {
-            Blood.SetActive(false);
-        }
-        
-    }**/
 
     public void Hit()
     {
@@ -153,6 +137,15 @@ public class PlayerMovement : MonoBehaviour {
     public void timerHit()
     {
         timerIsRunning = true;
+    }
+    
+    public void resetTimer()
+    {
+        timerIsRunning = false;
+        if(timerIsRunning == false)
+        {
+            timeRemaining = 3;
+        }
     }
 
 

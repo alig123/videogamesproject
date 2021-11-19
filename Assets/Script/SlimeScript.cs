@@ -49,8 +49,6 @@ public class SlimeScript : MonoBehaviour
         if (player)
         {
             nav.enabled = true;
-
-
             // turn away from the player 
             transform.rotation = Quaternion.LookRotation(transform.position - player.position);
             Vector3 runTo = transform.position + transform.forward * 10;
@@ -171,6 +169,9 @@ public class SlimeScript : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             other.gameObject.GetComponent<PlayerMovement>().currentHealth--;
+            other.gameObject.GetComponent<PlayerMovement>().Hit();
+            other.gameObject.GetComponent<PlayerMovement>().timerHit();
+
 
             Debug.Log("Player Health = " + other.gameObject.GetComponent<PlayerMovement>().currentHealth);
 

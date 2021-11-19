@@ -701,8 +701,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.015, y: 0.015, z: 0.015}
+  m_Center: {x: 0, y: 0.01, z: 0}
 --- !u!1 &853336782
 GameObject:
   m_ObjectHideFlags: 0
@@ -1025,15 +1025,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4000011550217864, guid: 1ce05a9bb8cf8c34890ad308705a8ca4, type: 3}
       propertyPath: m_LocalScale.x
-      value: 34.721764
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 4000011550217864, guid: 1ce05a9bb8cf8c34890ad308705a8ca4, type: 3}
       propertyPath: m_LocalScale.y
-      value: 34.721764
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 4000011550217864, guid: 1ce05a9bb8cf8c34890ad308705a8ca4, type: 3}
       propertyPath: m_LocalScale.z
-      value: 34.721764
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 4000011550217864, guid: 1ce05a9bb8cf8c34890ad308705a8ca4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1518,6 +1518,18 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2682861246361957738, guid: 51be602156fd56043b1ea2edd0a65e30, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2682861246361957738, guid: 51be602156fd56043b1ea2edd0a65e30, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2682861246361957738, guid: 51be602156fd56043b1ea2edd0a65e30, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2682861246361957738, guid: 51be602156fd56043b1ea2edd0a65e30, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.58086395
       objectReference: {fileID: 0}
@@ -1637,7 +1649,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f0dc277409ced5449f607ee36eb69fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentEnemyHealth: 1
+  batHealth: 1
 --- !u!195 &3102760028889127202
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1648,7 +1660,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.01
-  m_Speed: 3
+  m_Speed: 2.5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -1671,8 +1683,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.015, y: 0.015, z: 0.015}
+  m_Center: {x: 0, y: 0.01, z: 0}
 --- !u!54 &3102760028889127204
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+
 
 public class ScriptBat : MonoBehaviour
 {
@@ -8,8 +10,9 @@ public class ScriptBat : MonoBehaviour
     Transform player;               // Reference to the player's position.
     //PlayerHealth playerHealth;      // Reference to the player's health.- used later
     //EnemyHealth enemyHealth;        // Reference to this enemy's health.
-    UnityEngine.AI.NavMeshAgent nav;               // Reference to the nav mesh agent.
-    public int currentEnemyHealth = 1;
+    NavMeshAgent nav;               // Reference to the nav mesh agent.
+    public int batHealth = 2;
+
 
 
     //implementing FSM AI
@@ -30,8 +33,7 @@ public class ScriptBat : MonoBehaviour
 
     void Chase() //chase player
     {
-
-        if (currentEnemyHealth > 0 && player)
+        if (batHealth > 0 && player)
         {
             nav.enabled = true;
             nav.SetDestination(player.position);
@@ -49,8 +51,6 @@ public class ScriptBat : MonoBehaviour
         if (player)
         {
             nav.enabled = true;
-
-
             // turn away from the player 
             transform.rotation = Quaternion.LookRotation(transform.position - player.position);
             Vector3 runTo = transform.position + transform.forward * 10;
@@ -68,7 +68,7 @@ public class ScriptBat : MonoBehaviour
     {
 
         float distance = 0;
-        //calculate the distnce btw player and ghost
+        //calculate the distnce btw player and bat
 
         if (player)
         {
@@ -81,10 +81,9 @@ public class ScriptBat : MonoBehaviour
             _state = States.idle; return;
         }
 
-
         if (distance < 4)
         { //player in the zone,
-            if (currentEnemyHealth <= 1)
+            if (batHealth <= 1)
             { // low health, escape! 
                 switch (_state)
                 {
@@ -97,8 +96,6 @@ public class ScriptBat : MonoBehaviour
                     case States.escape:
                         break;
                 }
-
-
             }
             else
             {
@@ -136,7 +133,7 @@ public class ScriptBat : MonoBehaviour
     {
         // Set up the references.
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        nav = GetComponent<UnityEngine.AI.NavMeshAgent>();
+        nav = GetComponent<NavMeshAgent>();
     }
 
 
@@ -152,7 +149,7 @@ public class ScriptBat : MonoBehaviour
         }
 
         // If the enemy has health left...
-        if (currentEnemyHealth > 0 && player)
+        if (batHealth > 0 && player)
         {
             // ... set the destination of the nav mesh agent to the player.
             nav.SetDestination(player.position);
@@ -171,6 +168,8 @@ public class ScriptBat : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             other.gameObject.GetComponent<PlayerMovement>().currentHealth--;
+            other.gameObject.GetComponent<PlayerMovement>().Hit();
+            other.gameObject.GetComponent<PlayerMovement>().timerHit();
 
             Debug.Log("Player Health = " + other.gameObject.GetComponent<PlayerMovement>().currentHealth);
 
@@ -178,6 +177,9 @@ public class ScriptBat : MonoBehaviour
             {
                 Destroy(other.gameObject);
             }
+
         }
+
     }
+
 }
