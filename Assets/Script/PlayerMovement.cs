@@ -27,6 +27,8 @@ public class PlayerMovement : MonoBehaviour {
 
         //StartCoroutine(Hit());
         timerIsRunning = false;
+
+      
     }
 
 	private void FixedUpdate()
@@ -83,22 +85,22 @@ public class PlayerMovement : MonoBehaviour {
     {
             if (Input.GetKey(KeyCode.W))
             { //Up 
-                GetComponent<Transform>().rotation = Quaternion.Euler(0, 0, 0);
+                GetComponent<Transform>().rotation = Quaternion.Euler(0, -0, 0);
             }
 
             if (Input.GetKey(KeyCode.A))
             { //Left 
-                GetComponent<Transform>().rotation = Quaternion.Euler(0, 270, 0);
+                GetComponent<Transform>().rotation = Quaternion.Euler(0, -270, 0);
             }
 
             if (Input.GetKey(KeyCode.S))
             { //Down 
-                GetComponent<Transform>().rotation  = Quaternion.Euler(0, 180, 0);
+                GetComponent<Transform>().rotation  = Quaternion.Euler(0, -180, 0);
             }
 
             if (Input.GetKey(KeyCode.D))
             { //Right 
-                GetComponent<Transform>().rotation  = Quaternion.Euler(0, 90, 0);
+                GetComponent<Transform>().rotation  = Quaternion.Euler(0, -90, 0);
             }
         
     }

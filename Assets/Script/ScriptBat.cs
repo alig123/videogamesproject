@@ -12,6 +12,7 @@ public class ScriptBat : MonoBehaviour
     //EnemyHealth enemyHealth;        // Reference to this enemy's health.
     NavMeshAgent nav;               // Reference to the nav mesh agent.
     public int batHealth = 2;
+    public int batDamage = 2;
 
 
 
@@ -167,7 +168,7 @@ public class ScriptBat : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            other.gameObject.GetComponent<PlayerMovement>().currentHealth--;
+            other.gameObject.GetComponent<PlayerMovement>().currentHealth -= batDamage;
             other.gameObject.GetComponent<PlayerMovement>().Hit();
             other.gameObject.GetComponent<PlayerMovement>().timerHit();
 
@@ -181,5 +182,7 @@ public class ScriptBat : MonoBehaviour
         }
 
     }
+
+    
 
 }
