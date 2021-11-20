@@ -10,6 +10,7 @@ public class SlimeScript : MonoBehaviour
     //EnemyHealth enemyHealth;        // Reference to this enemy's health.
     UnityEngine.AI.NavMeshAgent nav;               // Reference to the nav mesh agent.
     public int currentSlimeHealth = 3;
+    public int slimeDamage = 3;
 
 
     //implementing FSM AI
@@ -168,7 +169,7 @@ public class SlimeScript : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            other.gameObject.GetComponent<PlayerMovement>().currentHealth--;
+            other.gameObject.GetComponent<PlayerMovement>().currentHealth -= slimeDamage;
             other.gameObject.GetComponent<PlayerMovement>().Hit();
             other.gameObject.GetComponent<PlayerMovement>().timerHit();
 
