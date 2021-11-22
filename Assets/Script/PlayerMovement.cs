@@ -16,7 +16,7 @@ public class PlayerMovement : MonoBehaviour {
     public GameObject Blood;
     public float timeRemaining = 3;
     public bool timerIsRunning = false;
-
+    public int points;
 
 
     // Use this for initialization
@@ -125,6 +125,9 @@ public class PlayerMovement : MonoBehaviour {
         }
         
     }
+    
+
+
 
     public void Hit()
     {
@@ -148,6 +151,11 @@ public class PlayerMovement : MonoBehaviour {
         {
             timeRemaining = 3;
         }
+    }
+
+    private void OnGUI()
+    {
+        GUI.Label(new Rect(10, 10, 100, 20), "Score : " + points);
     }
 
 
