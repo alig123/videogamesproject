@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour {
     Rigidbody playerRigidbody;      // Reference to the player's rigidbody.
     Animator anim;                      //for animation
     //for bomb
-    public int noBomb = 3;
+    public int noBomb;
     public GameObject bombPrefab;
     public int currentHealth = 5;
     //blood
@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour {
     public float timeRemaining = 3;
     public bool timerIsRunning = false;
     public int points;
+ 
 
 
     // Use this for initialization
@@ -90,7 +91,7 @@ public class PlayerMovement : MonoBehaviour {
 
             if (Input.GetKey(KeyCode.A))
             { //Left 
-                GetComponent<Transform>().rotation = Quaternion.Euler(0, -270, 0);
+                GetComponent<Transform>().rotation = Quaternion.Euler(0, 270, 0);
             }
 
             if (Input.GetKey(KeyCode.S))
@@ -100,7 +101,7 @@ public class PlayerMovement : MonoBehaviour {
 
             if (Input.GetKey(KeyCode.D))
             { //Right 
-                GetComponent<Transform>().rotation  = Quaternion.Euler(0, -90, 0);
+                GetComponent<Transform>().rotation  = Quaternion.Euler(0, 90, 0);
             }
         
     }
@@ -125,9 +126,6 @@ public class PlayerMovement : MonoBehaviour {
         }
         
     }
-    
-
-
 
     public void Hit()
     {
@@ -156,8 +154,6 @@ public class PlayerMovement : MonoBehaviour {
     private void OnGUI()
     {
         GUI.Label(new Rect(10, 10, 100, 20), "Score : " + points);
+        //GUI.Label(new Rect(10, 30, 100, 20), "Blue Key : " + blueKey);
     }
-
-
-	
 }

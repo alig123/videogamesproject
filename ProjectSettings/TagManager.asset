@@ -10,6 +10,7 @@ TagManager:
   - enemy2
   - enemyBat
   - enemySlime
+  - bluekey
   layers:
   - Default
   - TransparentFX

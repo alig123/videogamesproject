@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class CollectCoin : MonoBehaviour
 {
-
-    public AudioClip coinSound;
+    //public AudioClip coinSound;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -18,7 +17,7 @@ public class CollectCoin : MonoBehaviour
         if (other.name == "Player")
         {
             other.GetComponent<PlayerMovement>().points++;
-            AudioSource.PlayClipAtPoint(coinSound, transform.position);
+            //AudioSource.PlayClipAtPoint(coinSound, transform.position);
             Destroy(gameObject);
         }
     }
