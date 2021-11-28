@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour {
     Rigidbody playerRigidbody;      // Reference to the player's rigidbody.
     Animator anim;                      //for animation
     //for bomb
-    public int noBomb = 3;
+    public int noBomb;
     public GameObject bombPrefab;
     public int currentHealth = 5;
     //blood
@@ -17,6 +17,19 @@ public class PlayerMovement : MonoBehaviour {
     public float timeRemaining = 3;
     public bool timerIsRunning = false;
     public int points;
+    public int Cheese;
+    public GameObject Arrow1;
+    public GameObject Arrow2;
+    public GameObject Arrow3;
+    public GameObject Arrow4;
+    public GameObject Arrow5;
+    public GameObject Arrow6;
+    public GameObject Arrow7;
+    public GameObject Arrow8;
+    public GameObject Arrow9;
+    public GameObject Arrow10;
+
+    public Inventory inventory;
 
 
     // Use this for initialization
@@ -27,8 +40,7 @@ public class PlayerMovement : MonoBehaviour {
 
         //StartCoroutine(Hit());
         timerIsRunning = false;
-
-      
+  
     }
 
 	private void FixedUpdate()
@@ -47,11 +59,21 @@ public class PlayerMovement : MonoBehaviour {
 	}
 
 
+    public void OnCollisionEnter(Collision hit)
+    {
+        IInventoryItem item = hit.collider.GetComponent<IInventoryItem>();
+        if(item != null)
+        {
+            inventory.AddItem(item);
+        }
+    } 
+
+
     void dropBomb()
     {   
         if (noBomb > 0 && Input.GetKeyDown(KeyCode.Space))
         { //Drop bomb
-            
+            noBomb--;
             Instantiate(bombPrefab, new Vector3(GetComponent<Transform>().position.x, bombPrefab.transform.position.y, GetComponent<Transform>().position.z),bombPrefab.transform.rotation);        
         }
 
@@ -90,7 +112,7 @@ public class PlayerMovement : MonoBehaviour {
 
             if (Input.GetKey(KeyCode.A))
             { //Left 
-                GetComponent<Transform>().rotation = Quaternion.Euler(0, -270, 0);
+                GetComponent<Transform>().rotation = Quaternion.Euler(0, 270, 0);
             }
 
             if (Input.GetKey(KeyCode.S))
@@ -100,7 +122,7 @@ public class PlayerMovement : MonoBehaviour {
 
             if (Input.GetKey(KeyCode.D))
             { //Right 
-                GetComponent<Transform>().rotation  = Quaternion.Euler(0, -90, 0);
+                GetComponent<Transform>().rotation  = Quaternion.Euler(0, 90, 0);
             }
         
     }
@@ -125,9 +147,50 @@ public class PlayerMovement : MonoBehaviour {
         }
         
     }
-    
 
-
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Arrow1")
+        {
+            Arrow1.SetActive(false);
+        }
+        if (other.name == "Arrow2")
+        {
+            Arrow2.SetActive(false);
+        }
+        if (other.name == "Arrow3")
+        {
+            Arrow3.SetActive(false);
+        }
+        if (other.name == "Arrow4")
+        {
+            Arrow4.SetActive(false);
+        }
+        if (other.name == "Arrow5")
+        {
+            Arrow5.SetActive(false);
+        }
+        if (other.name == "Arrow6")
+        {
+            Arrow6.SetActive(false);
+        }
+        if (other.name == "Arrow7")
+        {
+            Arrow7.SetActive(false);
+        }
+        if (other.name == "Arrow8")
+        {
+            Arrow8.SetActive(false);
+        }
+        if (other.name == "Arrow9")
+        {
+            Arrow9.SetActive(false);
+        }
+        if (other.name == "Arrow10")
+        {
+            Arrow10.SetActive(false);
+        }
+    }
 
     public void Hit()
     {
@@ -152,12 +215,4 @@ public class PlayerMovement : MonoBehaviour {
             timeRemaining = 3;
         }
     }
-
-    private void OnGUI()
-    {
-        GUI.Label(new Rect(10, 10, 100, 20), "Score : " + points);
-    }
-
-
-	
 }
