@@ -6,7 +6,7 @@ using UnityEngine.AI;
 
 public class ScriptBat : MonoBehaviour
 {
-
+    
     Transform player;               // Reference to the player's position.
     //PlayerHealth playerHealth;      // Reference to the player's health.- used later
     //EnemyHealth enemyHealth;        // Reference to this enemy's health.
@@ -48,7 +48,6 @@ public class ScriptBat : MonoBehaviour
 
     void Escape()
     {
-
         if (player)
         {
             nav.enabled = true;
@@ -61,13 +60,10 @@ public class ScriptBat : MonoBehaviour
         {
             nav.enabled = false;
         }
-
-
     }
 
     void ChangeStates()
     {
-
         float distance = 0;
         //calculate the distnce btw player and bat
 
@@ -178,11 +174,6 @@ public class ScriptBat : MonoBehaviour
             {
                 Destroy(other.gameObject);
             }
-
         }
-
     }
-
-    
-
 }

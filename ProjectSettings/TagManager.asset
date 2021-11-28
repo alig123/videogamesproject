@@ -11,6 +11,8 @@ TagManager:
   - enemyBat
   - enemySlime
   - bluekey
+  - Guide
+  - Arrow1
   layers:
   - Default
   - TransparentFX

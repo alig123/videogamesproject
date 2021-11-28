@@ -31,6 +31,7 @@ public class explode : MonoBehaviour {
 
         else if (other.gameObject.tag == "enemyBat")
         {
+            Debug.Log("Bat hit");
             other.gameObject.GetComponent<ScriptBat>().batHealth--;
             if (other.gameObject.GetComponent<ScriptBat>().batHealth <= 0)
             {

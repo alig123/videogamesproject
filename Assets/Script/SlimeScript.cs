@@ -59,8 +59,6 @@ public class SlimeScript : MonoBehaviour
         {
             nav.enabled = false;
         }
-
-
     }
 
     void ChangeStates()

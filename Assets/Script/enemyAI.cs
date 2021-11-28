@@ -4,9 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 
-public class enemyAI : MonoBehaviour {
-
-   
+public class enemyAI : MonoBehaviour { 
 
     Transform player;               // Reference to the player's position.
     //PlayerHealth playerHealth;      // Reference to the player's health.- used later
@@ -178,7 +176,6 @@ public class enemyAI : MonoBehaviour {
             {
                 Destroy(other.gameObject);
             }
-
         }
 
 	}
