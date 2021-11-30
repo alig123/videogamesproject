@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class bomb : MonoBehaviour, IInventoryItem
+public class Bomb : MonoBehaviour, IInventoryItem
 {
     public string Name
     {
@@ -13,17 +13,20 @@ public class bomb : MonoBehaviour, IInventoryItem
     }
 
     public Sprite _Image;
-
     public Sprite Image
     {
-        get
-        {
-            return _Image;
-        }
+        get { return _Image; }
     }
 
-    public void OnPickUp()
-    {
-        gameObject.SetActive(false);
+    public void OnPickup()
+    {      
+        gameObject.SetActive(false);   
     }
+
+    public void OnDrop()
+    {
+      
+    }
+
+    
 }

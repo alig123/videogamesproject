@@ -1,15 +1,15 @@
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
+
 
 public interface IInventoryItem
 {
-
-    string Name { get; }
+    string Name { get;  }
     Sprite Image { get;  }
 
-    void OnPickUp();
+    void OnPickup();
 }
 
 public class InventoryEventArgs : EventArgs

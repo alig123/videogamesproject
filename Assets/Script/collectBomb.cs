@@ -7,7 +7,6 @@ public class collectBomb : MonoBehaviour
     public GameObject CollectBomb;
 
 
-
     void Start()
     {
        
