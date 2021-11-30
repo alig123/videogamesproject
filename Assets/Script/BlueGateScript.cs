@@ -8,9 +8,9 @@ public class BlueGateScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.name == "Player" && KeyVariables.blueKey > 0) 
+        if (other.name == "Player" && Variables.blueKey > 0) 
         {
-            KeyVariables.blueKey--;
+            Variables.blueKey--;
             Destroy(gameObject);
         }
     }

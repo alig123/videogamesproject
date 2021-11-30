@@ -1,7 +1,7 @@
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 public class Inventory : MonoBehaviour
 {
@@ -11,23 +11,45 @@ public class Inventory : MonoBehaviour
 
     public event EventHandler<InventoryEventArgs> ItemAdded;
 
+    public event EventHandler<InventoryEventArgs> ItemRemoved;
+
+
     public void AddItem(IInventoryItem item)
     {
-        if(mItems.Count < SLOTS)
+       if(mItems.Count < SLOTS)
         {
             Collider collider = (item as MonoBehaviour).GetComponent<Collider>();
             if(collider.enabled)
             {
                 collider.enabled = false;
                 mItems.Add(item);
-                item.OnPickUp();
+                item.OnPickup();
+
 
                 if(ItemAdded != null)
                 {
                     ItemAdded(this, new InventoryEventArgs(item));
                 }
             }
+        }
+    }
 
+
+    public void RemoveItem(IInventoryItem item)
+    {
+        if(mItems.Contains(item))
+        {
+            mItems.Remove(item);
+
+            Collider collider = (item as MonoBehaviour).GetComponent<Collider>();
+            if(collider != null)
+            {
+                collider.enabled = true;
+            }
+            if(ItemRemoved != null)
+            {
+                ItemRemoved(this, new InventoryEventArgs(item));
+            }
         }
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class greenKeyScript : MonoBehaviour
 {
+    /**
     private int rotateSpeed;
 
     // Start is called before the first frame update
@@ -19,12 +20,12 @@ public class greenKeyScript : MonoBehaviour
         {
             KeyVariables.greenKey++;
             //AudioSource.PlayClipAtPoint(coinSound, transform.position);
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
     }
 
     void Update()
     {
         transform.Rotate(0, rotateSpeed, 0, Space.Self); //rotate the gameobject in local space
-    }
+    }**/
 }

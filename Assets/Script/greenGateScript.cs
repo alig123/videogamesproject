@@ -6,9 +6,9 @@ public class greenGateScript : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if (other.name == "Player" && KeyVariables.greenKey > 0)
+        if (other.name == "Player" && Variables.greenKey > 0)
         {
-            KeyVariables.greenKey--;
+            Variables.greenKey--;
             Destroy(gameObject);
         }
     }

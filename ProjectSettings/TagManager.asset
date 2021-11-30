@@ -13,6 +13,7 @@ TagManager:
   - bluekey
   - Guide
   - Arrow1
+  - Collectable
   layers:
   - Default
   - TransparentFX

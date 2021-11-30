@@ -29,6 +29,7 @@ public class PlayerMovement : MonoBehaviour {
     public GameObject Arrow9;
     public GameObject Arrow10;
 
+
     public Inventory inventory;
 
 
@@ -48,7 +49,7 @@ public class PlayerMovement : MonoBehaviour {
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
 
-        Debug.Log(currentHealth);
+        //Debug.Log(currentHealth);
 
         dropBomb();
         // Move the player around the scene.
@@ -57,23 +58,27 @@ public class PlayerMovement : MonoBehaviour {
         Turning();
 
 	}
-
-
-    public void OnCollisionEnter(Collision hit)
+    
+    private void OnCollisionEnter(Collision hit)
     {
         IInventoryItem item = hit.collider.GetComponent<IInventoryItem>();
         if(item != null)
         {
+            Debug.Log("Item added!");
             inventory.AddItem(item);
+            if(hit.gameObject.name == "BombCollect1")
+            {
+                Variables.noBomb += 1;
+            }
         }
-    } 
+    }
 
 
     void dropBomb()
     {   
-        if (noBomb > 0 && Input.GetKeyDown(KeyCode.Space))
+        if (Variables.noBomb > 0 && Input.GetKeyDown(KeyCode.Space))
         { //Drop bomb
-            noBomb--;
+            Variables.noBomb--;
             Instantiate(bombPrefab, new Vector3(GetComponent<Transform>().position.x, bombPrefab.transform.position.y, GetComponent<Transform>().position.z),bombPrefab.transform.rotation);        
         }
 
