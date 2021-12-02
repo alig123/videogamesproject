@@ -1,17 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour {
 
-    public float speed = 3f;    // The speed that the player will move at.
+    public int speed = 3;    // The speed that the player will move at.
+    public int originalSpeed = 3;
     Vector3 movement;      // The vector to store the direction of the player's movement
     Rigidbody playerRigidbody;      // Reference to the player's rigidbody.
     Animator anim;                      //for animation
     //for bomb
     public int noBomb;
+    public int blueKey;
+    public int greenKey;
     public GameObject bombPrefab;
     public int currentHealth = 5;
+
     //blood
     public GameObject Blood;
     public float timeRemaining = 3;
@@ -29,19 +34,22 @@ public class PlayerMovement : MonoBehaviour {
     public GameObject Arrow9;
     public GameObject Arrow10;
 
-
-    public Inventory inventory;
+    public int numOfHearts;
+    public Image[] hearts;
+    public Sprite fullHeart;
+    public Sprite emptyHeart;
 
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         // Set up references.
         playerRigidbody = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
 
         //StartCoroutine(Hit());
         timerIsRunning = false;
-  
+
     }
 
 	private void FixedUpdate()
@@ -58,30 +66,14 @@ public class PlayerMovement : MonoBehaviour {
         Turning();
 
 	}
-    
-    private void OnCollisionEnter(Collision hit)
-    {
-        IInventoryItem item = hit.collider.GetComponent<IInventoryItem>();
-        if(item != null)
-        {
-            Debug.Log("Item added!");
-            inventory.AddItem(item);
-            if(hit.gameObject.name == "BombCollect1")
-            {
-                Variables.noBomb += 1;
-            }
-        }
-    }
-
 
     void dropBomb()
     {   
-        if (Variables.noBomb > 0 && Input.GetKeyDown(KeyCode.Space))
+        if (noBomb > 0 && Input.GetKeyDown(KeyCode.Space))
         { //Drop bomb
-            Variables.noBomb--;
+            noBomb--;
             Instantiate(bombPrefab, new Vector3(GetComponent<Transform>().position.x, bombPrefab.transform.position.y, GetComponent<Transform>().position.z),bombPrefab.transform.rotation);        
         }
-
     }
 
     void Move(float h, float v)
@@ -122,35 +114,66 @@ public class PlayerMovement : MonoBehaviour {
 
             if (Input.GetKey(KeyCode.S))
             { //Down 
-                GetComponent<Transform>().rotation  = Quaternion.Euler(0, -180, 0);
+                GetComponent<Transform>().rotation = Quaternion.Euler(0, -180, 0);
             }
 
             if (Input.GetKey(KeyCode.D))
             { //Right 
                 GetComponent<Transform>().rotation  = Quaternion.Euler(0, 90, 0);
-            }
-        
+            }       
     }
 
     // Update is called once per frame
     void Update() {
-        
-        if(timerIsRunning == true)
+       
+
+        if (timerIsRunning == true)
         {
             if(timeRemaining > 0)
             {
                 Hit();
+                SlimeAttack();
+                //lavaDamage();
+
+               
                 timeRemaining -= Time.deltaTime;
             }
             else
             {
                 timeRemaining = 0;
                 timerIsRunning = false;
+                normalSpeed();
                 endHit();
                 resetTimer();
             }
         }
-        
+
+        if (currentHealth > numOfHearts)
+        {
+            currentHealth = numOfHearts;
+        }
+
+        for (int i = 0; i < hearts.Length; i++)
+        {
+            if (i < currentHealth)
+            {
+                hearts[i].sprite = fullHeart;
+            }
+            else
+            {
+                hearts[i].sprite = emptyHeart;
+            }
+
+            if (i < numOfHearts)
+            {
+                hearts[i].enabled = true;
+            }
+            else
+            {
+                hearts[i].enabled = false;
+            }
+        }
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -219,5 +242,34 @@ public class PlayerMovement : MonoBehaviour {
         {
             timeRemaining = 3;
         }
+    }
+
+    public void normalSpeed()
+    {
+        speed = 3;
+    }
+
+    public void SlimeAttack()
+    {
+        speed = 1;
+    }
+
+    /**
+    public void lavaDamage()
+    {
+        float currentHealthLava = currentHealth;
+        currentHealthLava -= 1 * Time.deltaTime;
+    }**/
+
+    void OnGUI()
+    {
+        GUIStyle headStyle = new GUIStyle();
+        headStyle.fontSize = 25;
+        GUI.Label(new Rect(560, 590, 100, 20), " " + noBomb, headStyle);
+        GUI.Label(new Rect(660, 590, 100, 20), "4t4 " + Variables.blueKey, headStyle);
+        GUI.Label(new Rect(760, 590, 100, 20), " " + Variables.greenKey, headStyle);
+
+        //GUI.Label(new Rect(860, 590, 100, 20), " " + noGem, headStyle);
+        //GUI.Label(new Rect(860, 590, 100, 20), " " + points, headStyle);
     }
 }
