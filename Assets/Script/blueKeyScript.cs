@@ -17,7 +17,7 @@ public class blueKeyScript : MonoBehaviour
     {
         if (other.name == "Player")
         {
-           Variables.blueKey++;
+            Variables.blueKey++;
             //AudioSource.PlayClipAtPoint(coinSound, transform.position);
             Destroy(gameObject);
         }

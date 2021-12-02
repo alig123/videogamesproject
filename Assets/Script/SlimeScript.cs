@@ -11,6 +11,13 @@ public class SlimeScript : MonoBehaviour
     UnityEngine.AI.NavMeshAgent nav;               // Reference to the nav mesh agent.
     public int currentSlimeHealth = 3;
     public int slimeDamage = 3;
+    public int slimeSlowDamage = 2;
+    
+
+    public void Start()
+    {
+
+    }
 
 
     //implementing FSM AI
@@ -163,21 +170,28 @@ public class SlimeScript : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
         {
             other.gameObject.GetComponent<PlayerMovement>().currentHealth -= slimeDamage;
+            other.gameObject.GetComponent<PlayerMovement>().SlimeAttack();
+            other.gameObject.GetComponent<PlayerMovement>().normalSpeed();
             other.gameObject.GetComponent<PlayerMovement>().Hit();
             other.gameObject.GetComponent<PlayerMovement>().timerHit();
 
 
             Debug.Log("Player Health = " + other.gameObject.GetComponent<PlayerMovement>().currentHealth);
-
+            Debug.Log("Player speed = " + other.gameObject.GetComponent<PlayerMovement>().speed);
             if (other.gameObject.GetComponent<PlayerMovement>().currentHealth <= 0)
             {
                 Destroy(other.gameObject);
             }
         }
     }
+
+
+
+
+
 }
