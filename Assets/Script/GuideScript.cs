@@ -8,6 +8,7 @@ public class GuideScript : MonoBehaviour
     public GameObject Cheese;
 
 
+    //display arrow guides if player eats cheese
     private void OnTriggerEnter(Collider other)
     {
         if (other.name == "Player")

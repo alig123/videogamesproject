@@ -166,11 +166,19 @@ public class enemyAI : MonoBehaviour {
 	{
         if (other.gameObject.tag == "Player")
         {
-            other.gameObject.GetComponent<PlayerMovement>().currentHealth--;
-            other.gameObject.GetComponent<PlayerMovement>().Hit();
-            other.gameObject.GetComponent<PlayerMovement>().timerHit();
+            PlayerMovement playerScript = other.gameObject.GetComponent<PlayerMovement>();
 
-            Debug.Log("Player Health = " + other.gameObject.GetComponent<PlayerMovement>().currentHealth);
+            if (playerScript.isInvincible)
+            {
+                other.gameObject.GetComponent<PlayerMovement>().Hit();
+                other.gameObject.GetComponent<PlayerMovement>().timerHit();
+            }
+            else if (!playerScript.isInvincible)
+            {
+                //damage here
+                other.gameObject.GetComponent<PlayerMovement>().Hit();
+                other.gameObject.GetComponent<PlayerMovement>().timerHit();
+            }
 
             if (other.gameObject.GetComponent<PlayerMovement>().currentHealth <= 0)
             {

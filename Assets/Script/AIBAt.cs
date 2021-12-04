@@ -5,14 +5,13 @@ using UnityEngine;
 public class AIBAt : MonoBehaviour
 {
 
-    Transform player;               // Reference to the player's position.
-    //PlayerHealth playerHealth;      // Reference to the player's health.- used later
-    //EnemyHealth enemyHealth;        // Reference to this enemy's health.
-    UnityEngine.AI.NavMeshAgent agent;              // Reference to the nav mesh agent.
+    Transform player; // Reference to the player's position.
+    UnityEngine.AI.NavMeshAgent agent; // Reference to the nav mesh agent.
     public int BatHealth = 1;
     public int BatDamage = 1;
     public GameObject Player;
     public bool follow = false;
+  
 
 
     void Start()
@@ -21,17 +20,26 @@ public class AIBAt : MonoBehaviour
 
     }
 
+    //Damage done to Player if invincible or not
     private void OnTriggerEnter(Collider other)
     {   
         if (other.gameObject.tag == "Player")
         {
+            PlayerMovement playerScript = other.gameObject.GetComponent<PlayerMovement>();
             follow = true;
-            other.gameObject.GetComponent<PlayerMovement>().currentHealth--;
-            other.gameObject.GetComponent<PlayerMovement>().Hit();
-            other.gameObject.GetComponent<PlayerMovement>().timerHit();
+            if (playerScript.isInvincible)
+            {
+                other.gameObject.GetComponent<PlayerMovement>().Hit();
+                other.gameObject.GetComponent<PlayerMovement>().timerHit();
+            }
+            else if (!playerScript.isInvincible)
+            {
+                other.gameObject.GetComponent<PlayerMovement>().currentHealth--;
+                other.gameObject.GetComponent<PlayerMovement>().Hit();
+                other.gameObject.GetComponent<PlayerMovement>().timerHit();
+            }
 
-
-
+            //Destroy Player object
             if (other.gameObject.GetComponent<PlayerMovement>().currentHealth <= 0)
             {
                 Destroy(other.gameObject);
@@ -39,13 +47,7 @@ public class AIBAt : MonoBehaviour
         }
     }
 
-    /**
-    void Chase()
-    {   
-        nav.enabled = true;
-        nav.SetDestination(player.position);     
-    }**/
-
+    //Follow the player is follow is set to true
     void Update()
     {
         if (follow == true)

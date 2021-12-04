@@ -6,6 +6,7 @@ public class greenKeyScript : MonoBehaviour
 {
     
     private int rotateSpeed;
+    //public AudioClip pickUpSound;
 
     // Start is called before the first frame update
     void Start()
@@ -14,12 +15,13 @@ public class greenKeyScript : MonoBehaviour
         rotateSpeed = 1;
     }
 
+    //pick up green key
     private void OnTriggerEnter(Collider other)
     {
         if (other.name == "Player")
         {
             Variables.greenKey++;
-            //AudioSource.PlayClipAtPoint(coinSound, transform.position);
+            //AudioSource.PlayClipAtPoint(pickUpSound, transform.position);
             Destroy(gameObject);
         }
     }

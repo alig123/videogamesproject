@@ -9,10 +9,4 @@ public class placement : MonoBehaviour
     {
         Camera.main.transform.forward = Vector3.down;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

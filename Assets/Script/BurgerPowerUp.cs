@@ -7,6 +7,7 @@ public class BurgerPowerUp : MonoBehaviour
 
     //public AudioClip explode;
     
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,7 +20,7 @@ public class BurgerPowerUp : MonoBehaviour
         {
             Debug.Log("more health");
             //AudioSource.PlayClipAtPoint(explode, transform.position);
-            other.GetComponent<PlayerMovement>().currentHealth++;
+            other.GetComponent<PlayerMovement>().burgerHeal();
             gameObject.SetActive(false); //removes object.
         }
     }

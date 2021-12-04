@@ -12,17 +12,27 @@ public class PlayerMovement : MonoBehaviour {
     Animator anim;                      //for animation
     //for bomb
     public int noBomb;
+    public GameObject bombPrefab;
+    //for keys
     public int blueKey;
     public int greenKey;
-    public GameObject bombPrefab;
+    //health
     public int currentHealth = 5;
+    //particle affects
+    public GameObject invEffect;
+    public GameObject HealthEffect;
 
     //blood
     public GameObject Blood;
+    //timer
     public float timeRemaining = 3;
     public bool timerIsRunning = false;
-    public int points;
+
+    //collectables
+    public int gems;
     public int Cheese;
+
+    //arrow guides
     public GameObject Arrow1;
     public GameObject Arrow2;
     public GameObject Arrow3;
@@ -34,10 +44,16 @@ public class PlayerMovement : MonoBehaviour {
     public GameObject Arrow9;
     public GameObject Arrow10;
 
+    //heart
     public int numOfHearts;
     public Image[] hearts;
     public Sprite fullHeart;
     public Sprite emptyHeart;
+
+    //Invincible
+    public bool isInvincible;
+    public int invincible;
+
 
 
     // Use this for initialization
@@ -49,8 +65,9 @@ public class PlayerMovement : MonoBehaviour {
 
         //StartCoroutine(Hit());
         timerIsRunning = false;
+        isInvincible = false;
 
-    }
+}
 
 	private void FixedUpdate()
     {   // Store the input axes.
@@ -61,12 +78,14 @@ public class PlayerMovement : MonoBehaviour {
 
         dropBomb();
         // Move the player around the scene.
+        useInvincibility();
         Animating(h, v);
         Move(h, v);
         Turning();
 
 	}
 
+    //press space to drop bomb (remove one bomb from inventory) and place bombPrefab instead
     void dropBomb()
     {   
         if (noBomb > 0 && Input.GetKeyDown(KeyCode.Space))
@@ -75,6 +94,21 @@ public class PlayerMovement : MonoBehaviour {
             Instantiate(bombPrefab, new Vector3(GetComponent<Transform>().position.x, bombPrefab.transform.position.y, GetComponent<Transform>().position.z),bombPrefab.transform.rotation);        
         }
     }
+
+    //press 4 key to use invincibility item and remove one from inventory
+    void useInvincibility()
+    {
+        invincibleScript invinciblitiy = gameObject.GetComponent<invincibleScript>();
+
+        if (invincible > 0 && Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            invincible--;
+            //Set the particle affect
+            invEffect.SetActive(true);
+            invinciblitiy.timerHit();
+        }
+    }
+
 
     void Move(float h, float v)
     {
@@ -119,31 +153,26 @@ public class PlayerMovement : MonoBehaviour {
 
             if (Input.GetKey(KeyCode.D))
             { //Right 
-                GetComponent<Transform>().rotation  = Quaternion.Euler(0, 90, 0);
+                GetComponent<Transform>().rotation = Quaternion.Euler(0, 90, 0);
             }       
     }
 
     // Update is called once per frame
     void Update() {
-       
-
+       //for timer
         if (timerIsRunning == true)
         {
             if(timeRemaining > 0)
             {
-                Hit();
-                SlimeAttack();
-                //lavaDamage();
-
-               
+                //Hit();       
                 timeRemaining -= Time.deltaTime;
             }
             else
             {
                 timeRemaining = 0;
                 timerIsRunning = false;
-                normalSpeed();
-                endHit();
+                normalSpeed(); // back to normal speed
+                endHit(); //end blood affect
                 resetTimer();
             }
         }
@@ -173,9 +202,9 @@ public class PlayerMovement : MonoBehaviour {
                 hearts[i].enabled = false;
             }
         }
-
     }
 
+    //collide with the guided arrows (set them to false)
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Arrow1")
@@ -220,16 +249,19 @@ public class PlayerMovement : MonoBehaviour {
         }
     }
 
+    //display blood affect
     public void Hit()
     {
         Blood.SetActive(true);
     }
 
+    //end blood affect
     public void endHit()
     {
         Blood.SetActive(false);
     }
 
+   
     public void timerHit()
     {
         timerIsRunning = true;
@@ -246,30 +278,65 @@ public class PlayerMovement : MonoBehaviour {
 
     public void normalSpeed()
     {
-        speed = 3;
+        speed = 6;
     }
 
     public void SlimeAttack()
     {
         speed = 1;
     }
-
-    /**
+    
     public void lavaDamage()
     {
-        float currentHealthLava = currentHealth;
-        currentHealthLava -= 1 * Time.deltaTime;
-    }**/
+        currentHealth -= 1;
+    }
 
+    public void gemsBunch()
+    {
+        gems += 4;
+    }
+
+    public void invincibleOn()
+    {
+        isInvincible = true;
+    }
+
+    public void invincibleOff()
+    {
+        isInvincible = false;
+    }
+
+    public void addInvincible()
+    {
+        invincible++;
+    }
+
+    public void burgerHeal()
+    {
+        currentHealth++;
+        //set heal affect on
+        HealthEffect.SetActive(true);
+    }
+
+    //display instructions on what to collect.
     void OnGUI()
     {
-        GUIStyle headStyle = new GUIStyle();
-        headStyle.fontSize = 25;
-        GUI.Label(new Rect(560, 590, 100, 20), " " + noBomb, headStyle);
-        GUI.Label(new Rect(660, 590, 100, 20), "4t4 " + Variables.blueKey, headStyle);
-        GUI.Label(new Rect(760, 590, 100, 20), " " + Variables.greenKey, headStyle);
+        GUIStyle headStyle1 = new GUIStyle();
+        GUIStyle headStyle2 = new GUIStyle();
+        headStyle1.fontSize = 20;
+        headStyle2.fontSize = 25;
+        GUI.Label(new Rect(505, 590, 100, 20), " " + noBomb, headStyle2);
+        //GUI.Label(new Rect(860, 600, 100, 20), " " + medkit, headStyle);
+        //GUI.Label(new Rect(900, 600, 100, 20), " " + invincible, headStyle);
+        //GUI.Label(new Rect(900, 600, 100, 20), " " + speedPowerUp, headStyle);
 
-        //GUI.Label(new Rect(860, 590, 100, 20), " " + noGem, headStyle);
-        //GUI.Label(new Rect(860, 590, 100, 20), " " + points, headStyle);
+        GUI.Label(new Rect(1100, 20, 100, 20), "Collect the gems " + " (" + gems + " / 10)", headStyle1);
+        GUI.Label(new Rect(1100, 40, 100, 20), "Collect the green key" + " (" + Variables.greenKey + " / 1)", headStyle1);
+        GUI.Label(new Rect(1100, 60, 100, 20), "Collect the blue key" + " (" + Variables.blueKey + " / 1)", headStyle1);
+
+
+
+
+
     }
 }

@@ -4,28 +4,20 @@ using UnityEngine;
 
 public class collectBomb : MonoBehaviour
 {
-    public GameObject BombImage;
-    public int noBomb;
-
-
+    //public AudioClip pickUpSound;
     void Start()
     {
 
     }
 
+    //Player picks up 1 bomb.
     private void OnTriggerEnter(Collider other)
     {
         if (other.name == "Player")
         {
             other.GetComponent<PlayerMovement>().noBomb++;
-            //BombImage.GetComponent<BombCount>().text = " " + noBomb;
-            //selectedObject.transform.FindChild("BombCount").GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.red);
+            //AudioSource.PlayClipAtPoint(pickUpSound, transform.position);
             gameObject.SetActive(false);
         }
-    }
-
-    void Update()
-    {
-        //transform.position = new Vector3(transform.position.x, myCurve.Evaluate((Time.time % myCurve.length)), transform.position.z);
-    }
+    } 
 }
