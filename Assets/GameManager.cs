@@ -6,10 +6,6 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     bool gameFinished = false;
-
-    public float restartDelay = 1f;
-
-
     public GameObject completeLevelUI;
 
     public void EndGame()
@@ -18,7 +14,7 @@ public class GameManager : MonoBehaviour
         {
             gameFinished = true;
             Debug.Log("Game Over!");
-            Invoke("Restart", restartDelay);
+            SceneManager.LoadScene("Retry");
         }
     }
 
@@ -30,6 +26,5 @@ public class GameManager : MonoBehaviour
     public void CompleteLevel()
     {
         completeLevelUI.SetActive(true);
-
     }
 }

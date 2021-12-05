@@ -21,7 +21,8 @@ public class bomber : MonoBehaviour {
         transform.localScale += new Vector3(0.08F, 0.08F, 0.08F);
 	}
 
-    void OnDestroy() {       
+    public void OnDestroy() 
+    {       
         Instantiate (explode, transform.position, transform.rotation);
         AudioSource.PlayClipAtPoint(ExplosionSound, transform.position);
     }

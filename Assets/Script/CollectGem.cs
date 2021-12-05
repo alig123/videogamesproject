@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CollectGem : MonoBehaviour
 {
-    //public AudioClip coinSound;
+    public AudioClip pickUpSound;
 
     // Start is called before the first frame update
     void Start()
@@ -18,7 +18,7 @@ public class CollectGem : MonoBehaviour
         if (other.name == "Player")
         {
             other.GetComponent<PlayerMovement>().gems++;
-            //AudioSource.PlayClipAtPoint(coinSound, transform.position);
+            AudioSource.PlayClipAtPoint(pickUpSound, transform.position);
             Destroy(gameObject);
         }
     }

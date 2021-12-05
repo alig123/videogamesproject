@@ -10,7 +10,7 @@ public class SlimeScript : MonoBehaviour
     public int currentSlimeHealth = 3;
     public int slimeDamage = 3;
     public int slimeSlowDamage = 2;
-    
+    public AudioClip hitSound;
 
     //Damage done to player if invincible or not.
     public void OnTriggerEnter(Collider other)
@@ -29,6 +29,7 @@ public class SlimeScript : MonoBehaviour
             else if (!playerScript.isInvincible)
             {
                 //damage and bleed effect timer
+                AudioSource.PlayClipAtPoint(hitSound, transform.position);    
                 other.gameObject.GetComponent<PlayerMovement>().SlimeAttack();
                 other.gameObject.GetComponent<PlayerMovement>().currentHealth -= slimeDamage;
                 other.gameObject.GetComponent<PlayerMovement>().Hit();

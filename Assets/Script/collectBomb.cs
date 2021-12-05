@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class collectBomb : MonoBehaviour
 {
-    //public AudioClip pickUpSound;
+    public AudioClip pickUpSound;
     void Start()
     {
 
@@ -16,7 +16,7 @@ public class collectBomb : MonoBehaviour
         if (other.name == "Player")
         {
             other.GetComponent<PlayerMovement>().noBomb++;
-            //AudioSource.PlayClipAtPoint(pickUpSound, transform.position);
+            AudioSource.PlayClipAtPoint(pickUpSound, transform.position);
             gameObject.SetActive(false);
         }
     } 

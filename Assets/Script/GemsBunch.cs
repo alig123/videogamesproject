@@ -5,7 +5,7 @@ using UnityEngine;
 public class GemsBunch : MonoBehaviour
 {
 
-    //public AudioClip pickUpSound;
+    public AudioClip pickUpSound;
 
     // Start is called before the first frame update
     void Start()
@@ -20,7 +20,7 @@ public class GemsBunch : MonoBehaviour
         {
             Debug.Log("collected gems");
             other.GetComponent<PlayerMovement>().gemsBunch();
-            //AudioSource.PlayClipAtPoint(pickUpSound, transform.position);
+            AudioSource.PlayClipAtPoint(pickUpSound, transform.position);
             Destroy(gameObject);
         }
     }

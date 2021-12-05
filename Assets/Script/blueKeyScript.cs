@@ -5,7 +5,7 @@ using UnityEngine;
 public class blueKeyScript : MonoBehaviour
 {
     private int rotateSpeed;
-
+    public AudioClip pickUpSound;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,7 +18,7 @@ public class blueKeyScript : MonoBehaviour
         if (other.name == "Player")
         {
             Variables.blueKey++;
-            //AudioSource.PlayClipAtPoint(coinSound, transform.position);
+            AudioSource.PlayClipAtPoint(pickUpSound, transform.position);
             Destroy(gameObject);
         }
     }

@@ -6,6 +6,7 @@ public class GuideScript : MonoBehaviour
 {
     public GameObject ArrowGuides;
     public GameObject Cheese;
+    public AudioClip eatCheeseSound;
 
 
     //display arrow guides if player eats cheese
@@ -13,6 +14,7 @@ public class GuideScript : MonoBehaviour
     {
         if (other.name == "Player")
         {
+            AudioSource.PlayClipAtPoint(eatCheeseSound, transform.position);
             other.GetComponent<PlayerMovement>().Cheese++;
             ArrowGuides.SetActive(true);
             Cheese.SetActive(false);

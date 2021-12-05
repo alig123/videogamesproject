@@ -2,11 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
 
 public class PlayerMovement : MonoBehaviour {
 
+    public GameManager gameManager;
+    //different speeds
     public int speed = 3;    // The speed that the player will move at.
-    public int originalSpeed = 3;
+    public int originalSpeed = 3; 
+    //movement
     Vector3 movement;      // The vector to store the direction of the player's movement
     Rigidbody playerRigidbody;      // Reference to the player's rigidbody.
     Animator anim;                      //for animation
@@ -21,17 +26,15 @@ public class PlayerMovement : MonoBehaviour {
     //particle affects
     public GameObject invEffect;
     public GameObject HealthEffect;
-
+    public GameObject SpeedEffect;
     //blood
     public GameObject Blood;
     //timer
     public float timeRemaining = 3;
     public bool timerIsRunning = false;
-
     //collectables
     public int gems;
     public int Cheese;
-
     //arrow guides
     public GameObject Arrow1;
     public GameObject Arrow2;
@@ -43,16 +46,26 @@ public class PlayerMovement : MonoBehaviour {
     public GameObject Arrow8;
     public GameObject Arrow9;
     public GameObject Arrow10;
-
     //heart
     public int numOfHearts;
     public Image[] hearts;
     public Sprite fullHeart;
     public Sprite emptyHeart;
-
     //Invincible
     public bool isInvincible;
     public int invincible;
+    //SpeedPowerUp
+    public bool isSpeed;
+    public int speedItem;
+    //medkit
+    public bool hasMed = false;
+    public int medKit;
+    //AudioClips
+    public AudioClip eat1;
+    public AudioClip enemyHitSound;
+
+
+
 
 
 
@@ -66,8 +79,7 @@ public class PlayerMovement : MonoBehaviour {
         //StartCoroutine(Hit());
         timerIsRunning = false;
         isInvincible = false;
-
-}
+    }
 
 	private void FixedUpdate()
     {   // Store the input axes.
@@ -79,10 +91,11 @@ public class PlayerMovement : MonoBehaviour {
         dropBomb();
         // Move the player around the scene.
         useInvincibility();
+        useMoreSpeed();
+        useMedKit();
         Animating(h, v);
         Move(h, v);
         Turning();
-
 	}
 
     //press space to drop bomb (remove one bomb from inventory) and place bombPrefab instead
@@ -105,7 +118,40 @@ public class PlayerMovement : MonoBehaviour {
             invincible--;
             //Set the particle affect
             invEffect.SetActive(true);
+            AudioSource.PlayClipAtPoint(eat1, transform.position);
             invinciblitiy.timerHit();
+        }
+    }
+
+    //press 3 key to use speed item and remove one from inventory
+    void useMoreSpeed()
+    {
+        speedPowerUp speedPwrUp = gameObject.GetComponent<speedPowerUp>();
+
+        if (speedItem > 0 && Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            speedItem--;
+            //Set the particle affect
+            SpeedEffect.SetActive(true);
+            AudioSource.PlayClipAtPoint(eat1, transform.position);
+            speedPwrUp.timerHit();
+        }
+    }
+    
+    void useMedKit()
+    {
+
+        if (medKit > 0 && Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            medKit--;
+            //Set the particle affect
+            HealthEffect.SetActive(true);
+            AudioSource.PlayClipAtPoint(eat1, transform.position);
+            addMedHealth();
+        }
+        else if (medKit == 0)
+        {
+            hasMed = false;
         }
     }
 
@@ -202,6 +248,12 @@ public class PlayerMovement : MonoBehaviour {
                 hearts[i].enabled = false;
             }
         }
+
+        if(currentHealth == 0)
+        {
+            GameManager gManager = gameObject.GetComponent<GameManager>();
+            gManager.EndGame();
+        }
     }
 
     //collide with the guided arrows (set them to false)
@@ -252,6 +304,7 @@ public class PlayerMovement : MonoBehaviour {
     //display blood affect
     public void Hit()
     {
+        AudioSource.PlayClipAtPoint(enemyHitSound, transform.position);
         Blood.SetActive(true);
     }
 
@@ -278,7 +331,7 @@ public class PlayerMovement : MonoBehaviour {
 
     public void normalSpeed()
     {
-        speed = 6;
+        speed = 5;
     }
 
     public void SlimeAttack()
@@ -318,6 +371,39 @@ public class PlayerMovement : MonoBehaviour {
         HealthEffect.SetActive(true);
     }
 
+    public void speedOn()
+    {
+        isSpeed = true;
+        speed = 6;
+    }
+
+    public void speedOff()
+    {
+        isSpeed = false;
+        speed = 3;
+    }
+
+    public void addSpeed()
+    {
+        speedItem++;
+    }
+
+    public void addMedKit()
+    {
+        hasMed = true;
+        medKit++;
+    }
+
+    public void addMedHealth()
+    {
+        currentHealth += 3;
+    }
+
+    public void brownDamage()
+    {
+        currentHealth -= 3;
+    }
+
     //display instructions on what to collect.
     void OnGUI()
     {
@@ -325,18 +411,13 @@ public class PlayerMovement : MonoBehaviour {
         GUIStyle headStyle2 = new GUIStyle();
         headStyle1.fontSize = 20;
         headStyle2.fontSize = 25;
-        GUI.Label(new Rect(505, 590, 100, 20), " " + noBomb, headStyle2);
-        //GUI.Label(new Rect(860, 600, 100, 20), " " + medkit, headStyle);
-        //GUI.Label(new Rect(900, 600, 100, 20), " " + invincible, headStyle);
-        //GUI.Label(new Rect(900, 600, 100, 20), " " + speedPowerUp, headStyle);
+        GUI.Label(new Rect(580, 590, 100, 20), " " + noBomb, headStyle2);
+        GUI.Label(new Rect(680, 590, 100, 20), " " + medKit, headStyle2);
+        GUI.Label(new Rect(780, 590, 100, 20), " " + speedItem, headStyle2);
+        GUI.Label(new Rect(880, 590, 100, 20), " " + invincible, headStyle2);
 
         GUI.Label(new Rect(1100, 20, 100, 20), "Collect the gems " + " (" + gems + " / 10)", headStyle1);
         GUI.Label(new Rect(1100, 40, 100, 20), "Collect the green key" + " (" + Variables.greenKey + " / 1)", headStyle1);
         GUI.Label(new Rect(1100, 60, 100, 20), "Collect the blue key" + " (" + Variables.blueKey + " / 1)", headStyle1);
-
-
-
-
-
     }
 }

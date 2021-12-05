@@ -11,7 +11,7 @@ public class AIBAt : MonoBehaviour
     public int BatDamage = 1;
     public GameObject Player;
     public bool follow = false;
-  
+    public AudioClip hitSound;
 
 
     void Start()
@@ -29,12 +29,13 @@ public class AIBAt : MonoBehaviour
             follow = true;
             if (playerScript.isInvincible)
             {
-                other.gameObject.GetComponent<PlayerMovement>().Hit();
-                other.gameObject.GetComponent<PlayerMovement>().timerHit();
+                other.gameObject.GetComponent<PlayerMovement>().Hit(); //start bleed affect
+                other.gameObject.GetComponent<PlayerMovement>().timerHit(); //start timer
             }
             else if (!playerScript.isInvincible)
             {
-                other.gameObject.GetComponent<PlayerMovement>().currentHealth--;
+                AudioSource.PlayClipAtPoint(hitSound, transform.position);
+                other.gameObject.GetComponent<PlayerMovement>().currentHealth--; //remove one health
                 other.gameObject.GetComponent<PlayerMovement>().Hit();
                 other.gameObject.GetComponent<PlayerMovement>().timerHit();
             }
