@@ -5,8 +5,9 @@ using UnityEngine;
 public class BurgerPowerUp : MonoBehaviour
 {
 
-    //public AudioClip explode;
+    public AudioClip eatSound;
     
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,8 +19,8 @@ public class BurgerPowerUp : MonoBehaviour
         if (other.name == "Player")
         {
             Debug.Log("more health");
-            //AudioSource.PlayClipAtPoint(explode, transform.position);
-            other.GetComponent<PlayerMovement>().currentHealth++;
+            AudioSource.PlayClipAtPoint(eatSound, transform.position);
+            other.GetComponent<PlayerMovement>().burgerHeal();
             gameObject.SetActive(false); //removes object.
         }
     }

@@ -6,192 +6,41 @@ public class SlimeScript : MonoBehaviour
 {
 
     Transform player;               // Reference to the player's position.
-    //PlayerMovement currentHealth;      // Reference to the player's health.- used later
-    //EnemyHealth enemyHealth;        // Reference to this enemy's health.
     UnityEngine.AI.NavMeshAgent nav;               // Reference to the nav mesh agent.
     public int currentSlimeHealth = 3;
     public int slimeDamage = 3;
     public int slimeSlowDamage = 2;
-    
+    public AudioClip hitSound;
 
-    public void Start()
-    {
-
-    }
-
-
-    //implementing FSM AI
-    public enum States
-    {
-        idle,
-        chase,
-        escape
-    }
-
-    States _state = States.idle;
-
-    void Idling()
-    {  //just stay put
-        nav.enabled = false;
-    }
-
-
-    void Chase() //chase player
-    {
-
-        if (currentSlimeHealth > 0 && player)
-        {
-            nav.enabled = true;
-            nav.SetDestination(player.position);
-        }
-        else
-        {
-            nav.enabled = false;
-        }
-    }
-
-
-    void Escape()
-    {
-
-        if (player)
-        {
-            nav.enabled = true;
-            // turn away from the player 
-            transform.rotation = Quaternion.LookRotation(transform.position - player.position);
-            Vector3 runTo = transform.position + transform.forward * 10;
-            nav.SetDestination(runTo);
-        }
-        else
-        {
-            nav.enabled = false;
-        }
-    }
-
-    void ChangeStates()
-    {
-
-        float distance = 0;
-        //calculate the distnce btw player and ghost
-
-        if (player)
-        {
-            distance = Vector3.Distance(transform.position, player.transform.position);
-        }
-
-        //if player is dead, stop chasing 
-        else
-        {
-            _state = States.idle; return;
-        }
-
-
-        if (distance < 4)
-        { //player in the zone,
-            if (currentSlimeHealth <= 1)
-            { // low health, escape! 
-                switch (_state)
-                {
-                    case States.idle:
-                        _state = States.escape;
-                        break;
-                    case States.chase:
-                        _state = States.escape;
-                        break;
-                    case States.escape:
-                        break;
-                }
-
-
-            }
-            else
-            {
-                switch (_state)
-                {
-                    case States.idle:
-                        _state = States.chase;
-                        break;
-                    case States.chase:
-                        break;
-                    case States.escape:
-                        break;
-                }
-            }
-
-        }
-        else
-        { //player out the zone
-            switch (_state)
-            {
-                case States.idle:
-                    break;
-                case States.chase:
-                    _state = States.idle;
-                    break;
-                case States.escape:
-                    _state = States.idle;
-                    break;
-            }
-        }
-    }
-
-
-    void Awake()
-    {
-        // Set up the references.
-        player = GameObject.FindGameObjectWithTag("Player").transform;
-        nav = GetComponent<UnityEngine.AI.NavMeshAgent>();
-    }
-
-
-    void Update()
-    {
-        ChangeStates();
-
-        switch (_state)
-        {
-            case States.idle: Idling(); break;
-            case States.chase: Chase(); break;
-            case States.escape: Escape(); break;
-        }
-
-        // If the enemy has health left...
-        if (currentSlimeHealth > 0 && player)
-        {
-            // ... set the destination of the nav mesh agent to the player.
-            nav.SetDestination(player.position);
-        }
-        // Otherwise...
-        else
-        {
-            // ... disable the nav mesh agent.
-            nav.enabled = false;
-        }
-    }
-
-
+    //Damage done to player if invincible or not.
     public void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
         {
-            other.gameObject.GetComponent<PlayerMovement>().currentHealth -= slimeDamage;
-            other.gameObject.GetComponent<PlayerMovement>().SlimeAttack();
-            other.gameObject.GetComponent<PlayerMovement>().normalSpeed();
-            other.gameObject.GetComponent<PlayerMovement>().Hit();
-            other.gameObject.GetComponent<PlayerMovement>().timerHit();
+            //call script in Player
+            PlayerMovement playerScript = other.gameObject.GetComponent<PlayerMovement>();
 
+            if (playerScript.isInvincible)
+            {   
+                //bleed effect timer
+                other.gameObject.GetComponent<PlayerMovement>().Hit();
+                other.gameObject.GetComponent<PlayerMovement>().timerHit();
+            }
+            else if (!playerScript.isInvincible)
+            {
+                //damage and bleed effect timer
+                AudioSource.PlayClipAtPoint(hitSound, transform.position);    
+                other.gameObject.GetComponent<PlayerMovement>().SlimeAttack();
+                other.gameObject.GetComponent<PlayerMovement>().currentHealth -= slimeDamage;
+                other.gameObject.GetComponent<PlayerMovement>().Hit();
+                other.gameObject.GetComponent<PlayerMovement>().timerHit();
+            }
 
-            Debug.Log("Player Health = " + other.gameObject.GetComponent<PlayerMovement>().currentHealth);
-            Debug.Log("Player speed = " + other.gameObject.GetComponent<PlayerMovement>().speed);
+            //destroy player object is health is 0
             if (other.gameObject.GetComponent<PlayerMovement>().currentHealth <= 0)
             {
                 Destroy(other.gameObject);
             }
         }
     }
-
-
-
-
-
 }

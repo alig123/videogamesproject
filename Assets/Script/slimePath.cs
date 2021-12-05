@@ -15,6 +15,7 @@ public class slimePath : MonoBehaviour
         transform.LookAt(points[pointsIndex].position);
     }
 
+    //Move from point1 to point2 to point3,  etc and back.
     public void Update()
     {
         dist = Vector3.Distance(transform.position, points[pointsIndex].position);
@@ -24,7 +25,6 @@ public class slimePath : MonoBehaviour
         }
         Patrol();
     }
-
 
     public void Patrol()
     {

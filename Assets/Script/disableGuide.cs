@@ -13,9 +13,7 @@ public class disableGuide : MonoBehaviour
     {
         timerIsRunning = true;
     }
-
-    
-    
+     
 
     // Update is called once per frame
     void Update()
